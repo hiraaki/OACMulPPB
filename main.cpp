@@ -1,6 +1,5 @@
 #include<iostream>
 using namespace std;
-
 //*******************FUNCION PARA NUMERO POSITIVO A BINARIO********//
 void binariopos(int N,int A[128],int n){
     int aux[128];
