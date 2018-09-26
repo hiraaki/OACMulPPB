@@ -74,40 +74,25 @@ void binarioneg(int N,int A[128],int n){
     if(N1==0)
         for(int i=0;i<n;i++)
             A[i]=0;
-
 }
-
 
 //*******************SUMA DOS NUMEROS EN BINARIO*******************//
 void sumar(int A[128],int B[128],int bits){
     int acarreo=0;
     int suma;
     int m=bits;
-
-    for(int i=0;i<m;i++)
-    {
+    for(int i=0;i<m;i++){
         suma=A[m-(1+i)]+B[m-(1+i)]+acarreo;
-
-        if(suma==0)
-        {
+        if(suma==0){
             A[m-(1+i)]=suma;
             acarreo=0;
-        }
-
-        if(suma==1)
-        {
+        } else if(suma==1){
             A[m-(1+i)]=suma;
             acarreo=0;
-        }
-
-        if(suma==2)
-        {
+        } else if(suma==2){
             A[m-(1+i)]=(suma-2);
             acarreo=1;
-        }
-
-        if(suma==3)
-        {
+        } else if(suma==3){
             A[m-(1+i)]=(suma-2);
             acarreo=1;
         }
@@ -115,11 +100,8 @@ void sumar(int A[128],int B[128],int bits){
     }
 }
 
-//---------------------------------------------------------------//
 //***************************PROGRAMA PRINCIPAL******************//
-//---------------------------------------------------------------//
 int main(){
-
         int mdo,mdr;               //*****Numeros Ingresados****//
         int MDO_10[128];           //***MDO EN BINARIO***//
         int MDO_01[128];           //***MDO EN BINARIO***//
@@ -170,8 +152,6 @@ int main(){
 //**************************************************//
 
 
-
-
 //***TRUCO :MACENA EL MDO EN BINARIO DEPENDIENDO DEL SIGNO***//
         if(mdo<0){
             binariopos(mdo,MDO_10,bits);
@@ -192,14 +172,13 @@ int main(){
         for(int i=0;i<bits;i++)
             cout<<MDR[i];
 
-//**********LLENA EL REGISTRO ACUMULADOR DE 0**********//
+        // AC <- 0
         for(int i=0;i<bits;i++)
             AC[i]=0;
 
-//**************MUESTRA TITULOS DE BOOTH*********//
+        //Cabeçalho
         int a;
         a=bits/2;
-
         cout<<endl<<endl<<endl;
         cout<<"              ";
         for(int i=0;i<bits;i++){
@@ -214,16 +193,14 @@ int main(){
                 cout<<"QR";
         }
         cout<<"    QN";//espacio
-        cout<<"    SC";//espacio
+        cout<<"    SI";//espacio
         cout<<endl;
         cout<<"               ";
         for(int i=0;i<bits;i++)
             cout<<"_";
-
         cout<<"     ";//espacio
         for(int i=0;i<bits;i++)
             cout<<"_";
-
         cout<<"     __";//espacio
         cout<<"    __";//espacio
 
@@ -233,7 +210,6 @@ int main(){
 //****************MUESTRA DE DESARROLLO DE BOOTH**************//
             cout<<endl<<endl;
             cout<<"               ";//espacio
-
             for(int i=0;i<bits;i++)//AC CANTIDAD DE 0000000////
                 cout<<AC[i];
             cout<<"     ";//espacio
@@ -274,15 +250,12 @@ int main(){
                     cout<<endl<<"               ";//espacio
                     for(int i=0;i<bits;i++)
                         cout<<"_";
-
                     //****SUMA DE MDO MAS AC*****//
                     sumar(AC,MDO_01,bits);
-
                     //********MUESTRA RESULTADO*************//
                     cout<<endl<<"               ";//espacio
                     for(int i=0;i<bits;i++)
                         cout<<AC[i];
-
                     //*********************************ASHR******************//
                     for(int i=0;i<bits;i++)//AC CANTIDAD DE 0000000////
                         Aux[i]=AC[i];
@@ -300,10 +273,11 @@ int main(){
 
                     MDR[0]=aux1;
                     QN=aux2;
-                }
+
+                }else if(MDR[bits-1]==1 && QN==0){
 
 //**********CASO CUANDO LOS BITS SON 1 Y 0*************//
-                else if(MDR[bits-1]==1 && QN==0){
+
                     //********MUESTRA LA RESTA************//
                     cout<<endl<<"             ";//espacio
                     cout<<"- ";
