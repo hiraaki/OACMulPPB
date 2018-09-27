@@ -1,11 +1,48 @@
 #include<iostream>
 using namespace std;
-//*******************FUNCION PARA NUMERO POSITIVO A BINARIO********//
-void binariopos(int N,int A[128],int n){
+
+//somabinaria
+void sumar(int A[128],int B[128],int bits)
+{
+    int acarreo=0;
+    int suma;
+    int m=bits;
+
+    for(int i=0;i<m;i++)
+    {
+        suma=A[m-(1+i)]+B[m-(1+i)]+acarreo;
+
+        if(suma==0)
+        {
+            A[m-(1+i)]=suma;
+            acarreo=0;
+        }
+
+        if(suma==1)
+        {
+            A[m-(1+i)]=suma;
+            acarreo=0;
+        }
+
+        if(suma==2)
+        {
+            A[m-(1+i)]=(suma-2);
+            acarreo=1;
+        }
+
+        if(suma==3)
+        {
+            A[m-(1+i)]=(suma-2);
+            acarreo=1;
+        }
+
+    }
+}
+//conversão
+int tobinary(int N,int A[128]){
     int aux[128];
-    int i=0,j=0;
+    int i=0;
     int bits;
-    //ALMACENA EL REIDUO EN EL VECTOR AUX
     if(N<0)
         N=N*(-1);
     do{
@@ -13,67 +50,51 @@ void binariopos(int N,int A[128],int n){
         N=N/2;
         i++;
     }while(N!=0);
-    bits=i;
-//Pasa los elementos del vector aux al vector A
-    for(i=0;i<bits;i++)
-        A[i]=aux[i];
-
-    for(i=bits;i<n;i++)
+    bits = i;
+    for(i=0;i<=bits;i++)
         A[i]=0;
 
-    for(int i=n-1;i>=0;i--){
-        aux[j]=A[i];
-        j++;
+    for(i=0;i<bits;i++){
+        A[i]=aux[bits -1-i];
     }
-
-    for(int i=0;i<n;i++)
-        A[i]=aux[i];
+    return bits;
 }
-//*****************************************************************//
 
-//*******************FUNCION PARA NUMERO NEGATIVO A BINARIO********//
-void binarioneg(int N,int A[128],int n){
+//Conversão negativos
+int tobinaryN(int N,int A[128]){
     int aux[128];
-    int i=0,j=0;
     int bits;
-    int N1=N;
     if(N<0)
-        N=N*(-1)-1;
-    else
-        N=N-1;
-// ALMACENA EL REIDUO EN EL VECTOR AUX
-    do{
-        aux[i]=N%2;
-        N=N/2;
-        i++;
-    }while(N!=0);
+        N=N*(-1);
 
-    bits=i;
-
-    for(i=0;i<bits;i++)
-        A[i]=aux[i];
-
-    for(i=bits;i<n;i++)
-        A[i]=0;
-
-    for(int i=0;i<n;i++){
-        if(A[i]==0)
+    bits=tobinary(N,aux);
+    for(int i=0;i<bits;i++){
+        cout<<aux[i];
+    }
+    cout<<endl;
+    bits+=1;
+    for(int i=1;i<=bits;i++){
+        if(aux[i-1]==0){
             A[i]=1;
-        else
+        }else{
             A[i]=0;
+        }
     }
+    for(int i=0;i<bits;i++)
+        cout<<A[i];
 
+    cout<<endl;
 
-    for(int i=n-1;i>=0;i--){
-        aux[j]=A[i];
-        j++;
+    for(int i=0;i<bits-1;i++){
+        aux[i]=0;
     }
-    for(int i=0;i<n;i++)
-        A[i]=aux[i];
+    cout<<endl;
+    aux[bits-1] = 1;
+    sumar(A,aux,bits);
+    if(A[0]==0)
+        A[0]=1;
 
-    if(N1==0)
-        for(int i=0;i<n;i++)
-            A[i]=0;
+    return bits;
 }
 
 //*******************SUMA DOS NUMEROS EN BINARIO*******************//
@@ -115,19 +136,32 @@ int main(){
         cout<<endl<<"\t\t\tALGORITMO DE BOOTH";
         cout<<endl<<endl<<" ->> MULTIPLICANDO  :";
         cin>>mdo;
-        aux=mdo;//NUMERO DE BITS DEL MDO
-        do{
-            aux=aux/2;
-            bits1++;
-        }while(aux!=0);
         cout<<endl<<" ->> MULTIPLICADOR  :";
         cin>>mdr;
-        aux=mdr;//NUMERO DE BITS DEL MDO
-        do{
-            aux=aux/2;
-            bits2++;
-        }while(aux!=0);
-        //MAYOR NUMERO BITS
+
+
+
+//*******MUESTRA EL VALOR DEL MDO DEPENDIENDO DEL SIGNO***********//
+        int b;
+        if(mdo<0){
+            b=tobinary(mdo,MDO_10);
+            bits1=tobinaryN(mdo,MDO_01);
+            if(b>bits1)
+                bits1=b;
+        }else{
+            b=tobinary(mdo,MDO_01);
+            bits1=tobinaryN(mdo,MDO_10);
+            if(b>bits1)
+                bits1=b;
+        }
+
+        if(mdr<0){
+            bits2 =tobinaryN(mdr,MDR);
+
+        }else {
+            bits2 = tobinary(mdr, MDR);
+        }
+
         if(bits1>bits2)
             bits=bits1;
         else
@@ -135,40 +169,21 @@ int main(){
 
         bits=bits+1;
 
-//*******MUESTRA EL VALOR DEL MDO DEPENDIENDO DEL SIGNO***********//
+
         cout<<endl<<endl<<endl<<" ->> MULTIPLICANDO  :";
-        if(mdo<0){
-            binarioneg(mdo,MDO_01,bits);
-            //*** PASO A BINARIO EL MDO_01 ***//
-            for(int i=0;i<bits;i++)
-                cout<<MDO_01[i];
-        }
-        else{
-            binariopos(mdo,MDO_10,bits);
-            //*** PASO A BINARIO EL MDO_10 ***//
-            for(int i=0;i<bits;i++)
+        for(int i=0;i<bits;i++){
+            if(i>bits1){
+                MDO_01[i]=0;
+                MDO_10[i]=1;
+            }
+            if(mdo<0){
                 cout<<MDO_10[i];
-        }
-//**************************************************//
-
-
-//***TRUCO :MACENA EL MDO EN BINARIO DEPENDIENDO DEL SIGNO***//
-        if(mdo<0){
-            binariopos(mdo,MDO_10,bits);
-            binarioneg(mdo,MDO_01,bits);
-        }
-        else{
-            binariopos(mdo,MDO_01,bits);
-            binarioneg(mdo,MDO_10,bits);
+            } else {
+                cout<<MDO_01[i];
+            }
         }
 
-//***MUESTRA EL VALOR DEL MDR DEPENDIENDO DEL SIGNO***********//
         cout<<endl<<endl<<" ->> MULTIPLICADOR  :";
-        if(mdr<0)
-            binarioneg(mdr,MDR,bits);
-        else
-            binariopos(mdr,MDR,bits);
-
         for(int i=0;i<bits;i++)
             cout<<MDR[i];
 
@@ -319,13 +334,14 @@ int main(){
 //*********COMPROBACION DE BOOTH****************//
         cout<<endl<<endl<<endl;
         int mult,MULT[128];
+        int mc=0;
         mult=mdr*mdo;
         if(mult<0)
-            binarioneg(mult,MULT,2*bits);
+            mc=tobinaryN(mult,MULT);
         else
-            binariopos(mult,MULT,2*bits);
+            mc=tobinary(mult,MULT);
         cout<<"->>>  "<<mdo<<" * "<<mdr<<" = "<<mdo*mdr<<" = ";
-        for(int i=0;i<2*bits;i++)
+        for(int i=0;i<mc;i++)
             cout<<MULT[i];
         cout<<endl<<endl;
     return 0;
