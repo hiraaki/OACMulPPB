@@ -10,7 +10,6 @@ int tobinary(int N,int A[128]){
         N=N/2;
         bits++;
     }
-
     for(int i=0;i<bits;i++){
         A[127-i]=aux[i];
     }
@@ -74,10 +73,13 @@ int tobinaryN(int N,int *A){
     cout<<endl;
     return  bits;
 }
-
-
-void alin(){
-
+void alin(int A[128],int bites_01,int bites_10, bool maior0){
+    for(int i=128-bites_01;i>128-bites_10;i--){
+        if(maior0)
+            A[i]=0;
+        else
+            A[i]=1;
+    }
 }
 
 //int *both(int *mdo_01, int *mdo_01, int mdr, int bytes){
@@ -104,6 +106,7 @@ int main(){
     int bites2;
     bites1=tobinary(mdo,mdo_01);
     bites2=tobinaryN(mdr,mdr_01);
+
 //    for(int i=128-bites1;i<128;i++){
 //        cout<<mdo_01[i];
 //    }
@@ -112,22 +115,31 @@ int main(){
 //        cout<<mdr_01[i];
 //    }
 //    cout<<endl;
-//    if(bites1>bites2)
-//        bites=bites1;
-//    else
-//        bites=bites2;
-//
-//    int aux[128];
-//    if(bites>bites2){
-//
-//    } else if(bites<bites2){
-//
-//    }
-//    bitesp=&bites;
-//    sumar(mdo_01,mdr_01,bitesp);
-//    for(int i=128-bites;i<128;i++){
-//       cout<<mdo_01[i];
-//    }
+    if(bites1>bites2){
+        bites=bites1;
+        if(mdr>0){
+            alin(mdr_01,bites2,bites*2, true);
+        } else{
+            alin(mdr_01,bites2,bites*2, false);
+        }
+    }else if(bites2>bites1){
+        if(mdo<0){
+            alin(mdo_01,bites2,bites*2, true);
+        } else{
+            alin(mdo_01,bites2,bites*2, false);
+        }
+    }
+    for(int i=128-bites*2;i<128;i++){
+        cout<<mdo_01[i];
+    }
+    for(int i=128-bites*2;i<128;i++){
+        cout<<mdr_01[i];
+    }
+    bites=bites*2;
+    sumar(mdo_01,mdr_01,&bites);
+    for(int i=128-bites;i<128;i++){
+        cout<<mdo_01[i];
+    }
 
 return 0;
 }

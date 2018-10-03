@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OACMultPPB.iml" filepath="$PROJECT_DIR$/.idea/OACMultPPB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/OACMulPPB.iml" filepath="$PROJECT_DIR$/.idea/OACMulPPB.iml" />
     </modules>
   </component>
 </project>
