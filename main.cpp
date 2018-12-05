@@ -108,9 +108,9 @@ int main(){
     int mdo,mdr;
     cout<<endl<<"\t\t\tALGORITMO DE BOOTH";
     cout<<endl<<endl<<" ->> MULTIPLICANDO  :";
-    cin>>mdr;
-    cout<<endl<<" ->> MULTIPLICADOR  :";
     cin>>mdo;
+    cout<<endl<<" ->> MULTIPLICADOR  :";
+    cin>>mdr;
 
     int mdr_bp[128];
     int mdr_bn[128];
@@ -122,39 +122,47 @@ int main(){
 
     if(mdo>=0){
         bitesmdo=tobinary(mdo,mdo_b);
+        mdo_b[bitesmdo]=0;
+        bitesmdo++;
     } else{
         mdo=mdo*-1;
         bitesmdo=tobinaryN(mdo,mdo_b);
     }
 
-    printf("Muntiplicando:");
+    printf("Muntiplicando(M):");
     printBinryStr(bitesmdo,mdo_b);
 
 
     if(mdr>=0){
-        int aux=0;
-        aux=tobinary(mdr,mdr_bp);
-        mdr_bp[aux]=0;
-        aux++;
-        printBinryStr(aux,mdr_bp);
 
-        bites=tobinaryN(mdr,mdr_bn);
-        printBinryStr(bites,mdr_bn);
+        bitesmdr=tobinary(mdr,mdr_bp);
+        mdr_bp[bitesmdr]=0;
+        bitesmdr++;
+        //printBinryStr(bitesmdr,mdr_bp);
+
+        bitesmdr=tobinaryN(mdr,mdr_bn);
+
+       // printBinryStr(bitesmdr,mdr_bn);
     }else{
         mdr=mdr*-1;
 
-        bites=tobinaryN(mdr,mdr_bp);
-        printBinryStr(bites,mdr_bp);
+        bitesmdr=tobinary(mdr,mdr_bn);
+        mdr_bp[bitesmdr]=0;
+        bitesmdr++;
+       // printBinryStr(bites,mdr_bn);
 
-        bites=tobinary(mdr,mdr_bn);
-        mdr_bp[bites]=0;
-        bites++;
-        printBinryStr(bites,mdr_bn);
-
+        bitesmdr=tobinaryN(mdr,mdr_bp);
+        //printBinryStr(bites,mdr_bp);
 
     }
 
-
+    printf("mutiplicandor(Q):");
+    printBinryStr(bitesmdo,mdo_b);
+    printf("mutiplicandor(Q):");
+    printBinryStr(bitesmdr,mdr_bp);
+    printf("mutiplicandor(Q-1):");
+    printBinryStr(bitesmdr,mdr_bn);
+//
 
 
 
