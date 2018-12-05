@@ -1,4 +1,5 @@
 #include<iostream>
+#include <stdio.h>
 using namespace std;
 
 void emptyArray(int *array,int size){
@@ -281,7 +282,7 @@ int main(){
     both(mdo_bp,mdo_bn,mdr_b,bites);
 
     int res = mdo*mdr;
-    printf("\n%d * %d = %d =",mdo,mdr,res);
+    printf("\nPara Validação:%d * %d = %d =",mdo,mdr,res);
     int res_b[128];
     int bitesres=0;
     if(res>=0){
